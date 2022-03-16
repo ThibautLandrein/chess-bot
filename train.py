@@ -31,7 +31,7 @@ if __name__ == "__main__":
               batch_size=2048,
               epochs=1000,
               verbose=1,
-              validation_split=0.1,
+              validation_split=0.1, workers=2,
               callbacks=[callbacks.ReduceLROnPlateau(monitor='loss', patience=10),
                          callbacks.EarlyStopping(monitor='loss', patience=15, min_delta=1e-4)])
 

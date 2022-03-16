@@ -26,7 +26,7 @@ SQUARE_INDEX = {
   'g': 6,
   'h': 7
 }
-LEN = 1500000
+LEN = 1200000
 # this function will create our x (board)
 def random_board(max_depth=200):
   board = chess.Board()
@@ -91,10 +91,15 @@ if __name__ == "__main__":
         if i % 20 == 0:
             print(i)
         board = random_board()
-        val = stockfish(board, 0)
         b = split_dims(board)
+        v = stockfish(board, 0)
+        while v is None:
+            board = random_board()
+            b = split_dims(board)
+            v = stockfish(board, 0)
+
         b_array[i] = b
-        v_array[i] = val
+        v_array[i] = v
 
     numpy.savez_compressed("dataset.npz", b=b_array, v=v_array)
     print("Done")
