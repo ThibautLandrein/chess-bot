@@ -28,6 +28,8 @@ def build_model_residual(conv_size, conv_depth):
   board3d = layers.Input(shape=(14, 8, 8))
 
   # adding the convolutional layers
+  #Note : These paremeters work perfectly on my machine using tensorflow for gpu but prediction won't work on a tensorflow-cpu. 
+  # the workaround i found is that you can comment the data_format parameter on Conv2D layers
   x = layers.Conv2D(filters=conv_size, kernel_size=3, padding='same', data_format='channels_first')(board3d)
   for _ in range(conv_depth):
     previous = x
