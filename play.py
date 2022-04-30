@@ -16,7 +16,7 @@ model = models.load_model('model.h5')
 def minimax_eval(board):
   board3d = split_dims(board)
   board3d = numpy.expand_dims(board3d, 0)
-  return model.predict(board3d)[0][0]
+  return model(board3d)[0][0]
 
 
 def minimax(board, depth, alpha, beta, maximizing_player):
