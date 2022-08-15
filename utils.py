@@ -10,8 +10,9 @@ import chess.engine
 import random
 import numpy
 import os
+import time
 
-
+from multiprocessing import Pool, Manager, Lock
 #You need to download the stockfish engine online in order to use it to get an
 #evaluation of our chess board
 ENGINE_PATH = os.sep.join([os.getcwd(), "stockfish", "stockfish_14.1_win_x64_avx2.exe"])
@@ -26,9 +27,9 @@ SQUARE_INDEX = {
   'g': 6,
   'h': 7
 }
-LEN = 1200000
-# this function will create our x (board)
+LEN = 1000
 def random_board(max_depth=200):
+  """this function will create our x (the chess board board)"""
   board = chess.Board()
   depth = random.randrange(0, max_depth)
 
@@ -41,8 +42,6 @@ def random_board(max_depth=200):
 
   return board
 
-
-# this function will create our f(x) (score)
 def stockfish(board, depth):
   with chess.engine.SimpleEngine.popen_uci(ENGINE_PATH) as sf:
     result = sf.analyse(board, chess.engine.Limit(depth=depth))
@@ -84,23 +83,30 @@ def split_dims(board):
 
   return board3d
 
+def fill_array(_val):
+  board = random_board()
+  b = split_dims(board)
+  v = stockfish(board, 0)
+  while v is None:
+      board = random_board()
+      b = split_dims(board)
+      v = stockfish(board, 0)
+  return b, v
+
 if __name__ == "__main__":
-    b_array = numpy.ndarray((LEN, 14, 8, 8), dtype=numpy.int8)
-    v_array = numpy.ndarray(LEN, dtype=numpy.int16)
-    for i in range (LEN):
-        if i % 20 == 0:
-            print(i)
-        board = random_board()
-        b = split_dims(board)
-        v = stockfish(board, 0)
-        while v is None:
-            board = random_board()
-            b = split_dims(board)
-            v = stockfish(board, 0)
+  start_time = time.time()
+  pool = Pool(processes=os.cpu_count() - 2)
+  b_array = numpy.zeros((LEN, 14, 8, 8), dtype=numpy.int8)
+  v_array = numpy.zeros(LEN, dtype=numpy.int16)
+  result = pool.map(fill_array, range(LEN))
+  pool.close()
+  pool.join()
+  print(time.time() - start_time)
 
-        b_array[i] = b
-        v_array[i] = v
+  for idx, line in enumerate(result):
+    arr, grade = line
+    b_array[idx] = arr
+    v_array[idx] = grade
 
-    numpy.savez_compressed("dataset.npz", b=b_array, v=v_array)
-    print("Done")
-
+  numpy.savez_compressed("dataset.npz", b=b_array, v=v_array)
+  print("Done")
