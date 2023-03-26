@@ -9,7 +9,7 @@ import chess
 import chess.engine
 import numpy
 from tensorflow.keras import models
-from utils import split_dims, ENGINE_PATH
+from .utils import split_dims, ENGINE_PATH
 
 # used for the minimax algorithm
 model = models.load_model('model.h5')

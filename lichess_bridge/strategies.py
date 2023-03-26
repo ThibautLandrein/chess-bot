@@ -7,7 +7,7 @@ import chess
 from chess.engine import PlayResult
 import random
 from engine_wrapper import EngineWrapper
-from play import get_ai_move
+from engines.play import get_ai_move
 
 
 class FillerEngine:
@@ -107,5 +107,4 @@ class FirstMove(ExampleEngine):
 class Engine(MinimalEngine):
 
     def search(self, board, time_limit, ponder, draw_offered):
-        print("search")
         return PlayResult(get_ai_move(board, 1), None)
