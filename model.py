@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on Sat Mar  5 17:05:27 2022
 
@@ -7,8 +6,6 @@ Created on Sat Mar  5 17:05:27 2022
 
 import tensorflow.keras.models as models
 import tensorflow.keras.layers as layers
-import tensorflow.keras.utils as utils
-import tensorflow.keras.optimizers as optimizers
 
 
 def build_model(conv_size, conv_depth):

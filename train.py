@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on Sat Mar 12 11:32:24 2022
 
@@ -9,8 +8,6 @@ import numpy
 import tensorflow.keras.callbacks as callbacks
 from model import build_model_residual
 
-import tensorflow.keras.models as models
-import tensorflow.keras.layers as layers
 import tensorflow.keras.optimizers as optimizers
 
 def get_dataset():
@@ -22,7 +19,6 @@ def get_dataset():
 
 if __name__ == "__main__":
     x_train, y_train = get_dataset()
-    print(x_train.shape)
     model = build_model_residual(32, 4)
 
     model.compile(optimizer=optimizers.Adam(5e-4), loss='mean_squared_error')
