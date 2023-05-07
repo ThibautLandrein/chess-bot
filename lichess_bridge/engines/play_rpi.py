@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on Sat Mar 12 15:30:31 2022
 
@@ -9,7 +8,7 @@ import chess
 import chess.engine
 import numpy
 import tflite_runtime.interpreter as tflite
-from utils import split_dims, ENGINE_PATH
+from lichess_bridge.engines.utils import split_dims, ENGINE_PATH
 
 
 model = tflite.Interpreter("/home/pi/chess/chess-bot/model.tflite")
