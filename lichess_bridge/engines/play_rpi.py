@@ -4,17 +4,15 @@ Created on Sat Mar 12 15:30:31 2022
 @author: Thibaut Landrein
 """
 
-import chess
 import chess.engine
 import numpy
 import tflite_runtime.interpreter as tflite
-from lichess_bridge.engines.utils import split_dims, ENGINE_PATH
+from lichess_bridge.engines.utils import split_dims
 
 
 model = tflite.Interpreter("/home/pi/chess/chess-bot/model.tflite")
 def minimax_eval(board):
   board3d = split_dims(board)
- # board3d = numpy.expand_dims(board3d, 0)
   input_details = model.get_input_details()
   input_data = numpy.array(board3d, dtype=numpy.float32)
   output_details = model.get_output_details()
