@@ -28,7 +28,7 @@ SQUARE_INDEX = {
 }
 LEN = 1000
 def random_board(max_depth=200):
-  """this function will create our x (the chess board board)"""
+  """this function will create our x (the chess board)"""
   board = chess.Board()
   depth = random.randrange(0, max_depth)
 
